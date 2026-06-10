@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>POKéMON Uniswap Edition</title>
     <style>
       html, body, #root {
@@ -102,6 +102,146 @@
         image-rendering: pixelated;
         image-rendering: crisp-edges;
         display: block;
+      }
+      /* On-screen DMG controls: touch devices only */
+      .gb-controls {
+        display: none;
+      }
+      @media (hover: none) and (pointer: coarse) {
+        #root {
+          overflow-y: auto;
+        }
+        /* margin:auto keeps an overflowing shell scrollable from the top in flex centering */
+        .gb-shell {
+          margin: auto;
+          padding: 10px 8px 18px;
+        }
+        .gb-bezel {
+          padding: 24px 10px 18px;
+        }
+        .gb-led-wrap {
+          display: none;
+        }
+        .gb-controls {
+          display: block;
+          margin-top: 16px;
+          touch-action: none;
+          user-select: none;
+          -webkit-user-select: none;
+          -webkit-touch-callout: none;
+        }
+        .gb-controls-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 10px;
+        }
+        .gb-dpad {
+          position: relative;
+          width: 120px;
+          height: 120px;
+        }
+        .gb-dpad-cross {
+          position: absolute;
+          inset: 0;
+          transition: transform 60ms;
+        }
+        .gb-dpad[data-dir='up'] .gb-dpad-cross { transform: translateY(-2px); }
+        .gb-dpad[data-dir='down'] .gb-dpad-cross { transform: translateY(2px); }
+        .gb-dpad[data-dir='left'] .gb-dpad-cross { transform: translateX(-2px); }
+        .gb-dpad[data-dir='right'] .gb-dpad-cross { transform: translateX(2px); }
+        .gb-dpad-h,
+        .gb-dpad-v {
+          position: absolute;
+          background: #2c2b33;
+          border-radius: 7px;
+          box-shadow:
+            inset 0 2px 2px rgba(255, 255, 255, 0.22),
+            inset 0 -3px 4px rgba(0, 0, 0, 0.5),
+            0 3px 6px rgba(0, 0, 0, 0.35);
+        }
+        .gb-dpad-h {
+          left: 0;
+          right: 0;
+          top: 40px;
+          height: 40px;
+        }
+        .gb-dpad-v {
+          top: 0;
+          bottom: 0;
+          left: 40px;
+          width: 40px;
+        }
+        .gb-dpad-center {
+          position: absolute;
+          left: 47px;
+          top: 47px;
+          width: 26px;
+          height: 26px;
+          border-radius: 50%;
+          background: radial-gradient(circle at 35% 30%, #3a3942, #232229 70%);
+        }
+        .gb-ab {
+          display: flex;
+          align-items: center;
+          gap: 18px;
+          transform: rotate(-22deg);
+        }
+        .gb-ab-btn {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 7px;
+        }
+        .gb-ab-btn button {
+          width: 56px;
+          height: 56px;
+          border-radius: 50%;
+          border: none;
+          padding: 0;
+          background: radial-gradient(circle at 35% 30%, #b0496b, #8d2942 65%);
+          box-shadow:
+            inset 0 2px 3px rgba(255, 255, 255, 0.35),
+            inset 0 -4px 5px rgba(0, 0, 0, 0.35),
+            0 4px 7px rgba(0, 0, 0, 0.4);
+        }
+        .gb-ab-btn button[data-pressed='true'] {
+          transform: translateY(2px);
+          box-shadow:
+            inset 0 3px 5px rgba(0, 0, 0, 0.4),
+            0 1px 2px rgba(0, 0, 0, 0.4);
+        }
+        .gb-ab-btn span,
+        .gb-ss-btn span {
+          font: italic 700 11px/1 'Helvetica Neue', Arial, sans-serif;
+          letter-spacing: 0.08em;
+          color: #2f327e;
+        }
+        .gb-ss {
+          display: flex;
+          justify-content: center;
+          gap: 30px;
+          margin-top: 14px;
+        }
+        .gb-ss-btn {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 6px;
+          transform: rotate(-22deg);
+        }
+        .gb-ss-btn button {
+          width: 44px;
+          height: 13px;
+          border-radius: 7px;
+          border: none;
+          padding: 0;
+          background: linear-gradient(#9b97a8, #76727f);
+          box-shadow:
+            inset 0 1px 1px rgba(255, 255, 255, 0.4),
+            inset 0 -2px 2px rgba(0, 0, 0, 0.4),
+            0 2px 3px rgba(0, 0, 0, 0.35);
+        }
       }
     </style>
   </head>

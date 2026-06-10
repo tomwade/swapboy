@@ -20,9 +20,11 @@ export function createScreen(visible: HTMLCanvasElement): Screen {
   const ctx = back.getContext('2d')!;
   const vctx = visible.getContext('2d')!;
 
-  // Fixed budget for the Game Boy shell chrome around the LCD.
-  const CHROME_X = 190;
-  const CHROME_Y = 170;
+  // Fixed budget for the Game Boy shell chrome around the LCD. Touch devices
+  // use a slimmer bezel but need vertical room for the on-screen controls.
+  const touch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  const CHROME_X = touch ? 38 : 190;
+  const CHROME_Y = touch ? 290 : 170;
 
   function resize(): void {
     const cw = window.innerWidth - CHROME_X;

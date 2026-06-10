@@ -22,6 +22,10 @@ export interface Input {
   held(b: Button): boolean;
   /** Edge: went down since the previous tick. */
   pressed(b: Button): boolean;
+  /** Programmatic press, e.g. from on-screen touch controls. */
+  buttonDown(b: Button): void;
+  /** Programmatic release, e.g. from on-screen touch controls. */
+  buttonUp(b: Button): void;
   /** Call once at the end of every fixed step. */
   endFrame(): void;
   dispose(): void;
@@ -65,6 +69,16 @@ export function createInput(onFirstGesture: () => void): Input {
   return {
     held: (b) => down.has(b),
     pressed: (b) => justPressed.has(b),
+    buttonDown(b) {
+      gesture();
+      if (!down.has(b)) {
+        down.add(b);
+        justPressed.add(b);
+      }
+    },
+    buttonUp(b) {
+      down.delete(b);
+    },
     endFrame() {
       justPressed.clear();
     },
