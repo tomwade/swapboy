@@ -1,5 +1,5 @@
 import type { GameEngine, Scene } from '../engine';
-import { FONT, spr } from '../../gfx/assets';
+import { FONT, spr, sprOrNull } from '../../gfx/assets';
 import { music, type Track } from '../../audio/music';
 import { sfxPressAB } from '../../audio/sfx';
 import { ConnectScene } from './connect';
@@ -22,11 +22,11 @@ export class TitleScene implements Scene {
 
   draw(ctx: CanvasRenderingContext2D): void {
     const font = FONT();
-    const logo = spr('TITLE_LOGO');
-    ctx.drawImage(logo, Math.floor((160 - logo.width) / 2), 6);
+    const logo = sprOrNull('TITLE_LOGO_TTF') ?? spr('TITLE_LOGO');
+    ctx.drawImage(logo, Math.floor((160 - logo.width) / 2), 2);
 
     const subtitle = 'Uniswap Edition';
-    font.draw(ctx, subtitle, Math.floor((160 - subtitle.length * 8) / 2), 52);
+    font.draw(ctx, subtitle, Math.floor((160 - subtitle.length * 8) / 2), 50);
 
     if (Math.floor(this.engine.frame / 30) % 2 === 0) {
       const prompt = 'PRESS SPACE';
@@ -35,10 +35,10 @@ export class TitleScene implements Scene {
 
     const unicorn = spr('TITLE_UNICORN');
     const trainer = spr('TITLE_TRAINER');
-    ctx.drawImage(unicorn, 24, 126 - unicorn.height);
-    ctx.drawImage(trainer, 100, 126 - trainer.height);
+    ctx.drawImage(unicorn, 24, 132 - unicorn.height);
+    ctx.drawImage(trainer, 100, 132 - trainer.height);
 
-    const copyright = "©'26 ATRIUM ACADEMY";
+    const copyright = "©'26 twade.eth";
     font.draw(ctx, copyright, Math.floor((160 - copyright.length * 8) / 2), 134);
   }
 }

@@ -33,5 +33,21 @@ export function GameCanvas() {
     };
   }, []);
 
-  return <canvas ref={ref} />;
+  return (
+    <div className="gb-shell">
+      <div className="gb-bezel">
+        <div className="gb-bezel-caption">DOT MATRIX WITH STEREO SOUND</div>
+        <div className="gb-led-wrap">
+          <span className="gb-led" />
+          <span>BATT</span>
+        </div>
+        <div className="gb-screen-wrap">
+          <canvas ref={ref} />
+        </div>
+      </div>
+      <div className="gb-brand">
+        SWAPBOY <span className="tm">TM</span>
+      </div>
+    </div>
+  );
 }

@@ -1,5 +1,6 @@
 import { bake } from './sprites';
 import { loadFont, type BitmapFont } from './font';
+import { buildTtfLogo } from './logo';
 import * as tilesArt from './art/tiles';
 import * as charsArt from './art/characters';
 import * as titleArt from './art/title';
@@ -14,6 +15,12 @@ export async function loadAssets(): Promise<void> {
       if (typeof value === 'string') sprites.set(name, bake(value));
     }
   }
+  const ttfLogo = await buildTtfLogo();
+  if (ttfLogo) sprites.set('TITLE_LOGO_TTF', ttfLogo);
+}
+
+export function sprOrNull(name: string): HTMLCanvasElement | null {
+  return sprites.get(name) ?? null;
 }
 
 export function FONT(): BitmapFont {

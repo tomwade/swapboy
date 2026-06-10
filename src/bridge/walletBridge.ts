@@ -17,6 +17,7 @@ import { config } from '../wagmi';
 import type { EngineToReact, PoolToken, TokenMeta } from './events';
 import type { GameEngine } from '../engine/engine';
 import { fetchTopPools } from '../uniswap/pools';
+import { fetchTopFlaunchCoins } from '../uniswap/flaunch';
 import {
   checkApproval,
   getQuote,
@@ -122,7 +123,16 @@ export function attachWalletBridge(engine: GameEngine): () => void {
       }
       case 'FETCH_POOLS': {
         try {
-          engine.dispatch({ type: 'POOLS', pools: await fetchTopPools(5) });
+          // Primary: Flaunch top coins. Fallback: GeckoTerminal Uniswap pools
+          // (the Flaunch API is Cloudflare-gated and can reject the proxy).
+          let pools;
+          try {
+            pools = await fetchTopFlaunchCoins(5);
+          } catch (flaunchErr) {
+            console.warn('[bridge] Flaunch API unavailable, falling back:', flaunchErr);
+            pools = await fetchTopPools(5);
+          }
+          engine.dispatch({ type: 'POOLS', pools });
         } catch (err) {
           engine.dispatch({ type: 'POOLS_FAILED', message: message(err) });
         }

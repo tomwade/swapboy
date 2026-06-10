@@ -58,8 +58,21 @@ const MOCK_PROVIDER = `(() => {
   announce();
 })();`;
 
-// Pick the same top-5 pools the app will fetch; find the first with a WETH side.
+// Mirror the app's pool source: Flaunch first (via the dev proxy), falling
+// back to GeckoTerminal. Find the first listing with an ETH/WETH side.
 async function pickPool() {
+  try {
+    const r = await fetch('http://localhost:5173/flaunch-api/v1/base/coins/top?sort=volume&limit=5');
+    if (r.ok) {
+      const j = await r.json();
+      if (Array.isArray(j.data) && j.data.length > 0) {
+        // Flaunch listings are COIN/ETH — ETH is always the second option.
+        return { index: 0, side: 1, name: `${j.data[0].symbol}/ETH (flaunch)` };
+      }
+    }
+  } catch {
+    /* Cloudflare-gated — fall through */
+  }
   const res = await fetch(
     'https://api.geckoterminal.com/api/v2/networks/base/dexes/uniswap-v3-base/pools?sort=h24_volume_usd_desc&include=base_token,quote_token&page=1',
   );

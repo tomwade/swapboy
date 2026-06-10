@@ -20,15 +20,16 @@ export function createScreen(visible: HTMLCanvasElement): Screen {
   const ctx = back.getContext('2d')!;
   const vctx = visible.getContext('2d')!;
 
+  // Fixed budget for the Game Boy shell chrome around the LCD.
+  const CHROME_X = 190;
+  const CHROME_Y = 170;
+
   function resize(): void {
-    const cw = window.innerWidth;
-    const ch = window.innerHeight;
+    const cw = window.innerWidth - CHROME_X;
+    const ch = window.innerHeight - CHROME_Y;
     const k = Math.max(1, Math.floor(Math.min(cw / GB_W, ch / GB_H)));
     visible.width = GB_W * k;
     visible.height = GB_H * k;
-    visible.style.position = 'absolute';
-    visible.style.left = `${Math.floor((cw - GB_W * k) / 2)}px`;
-    visible.style.top = `${Math.floor((ch - GB_H * k) / 2)}px`;
     // Resets to true whenever the canvas size attribute changes — re-set every time.
     vctx.imageSmoothingEnabled = false;
   }

@@ -10,8 +10,93 @@
         padding: 0;
         width: 100%;
         height: 100%;
-        background: #000;
+        background: #17171c;
         overflow: hidden;
+      }
+      #root {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      /* DMG-style shell around the screen */
+      .gb-shell {
+        background: #c5c1bc;
+        border-radius: 12px 12px 56px 12px;
+        padding: 16px 24px 22px;
+        box-shadow:
+          inset 5px 5px 12px rgba(255, 255, 255, 0.55),
+          inset -6px -8px 14px rgba(0, 0, 0, 0.22),
+          0 16px 44px rgba(0, 0, 0, 0.65);
+      }
+      .gb-bezel {
+        position: relative;
+        background: #585567;
+        border-radius: 10px 10px 36px 10px;
+        padding: 26px 40px 30px;
+        box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.45);
+      }
+      .gb-bezel-caption {
+        position: absolute;
+        top: 7px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font: 600 9px/1 'Helvetica Neue', Arial, sans-serif;
+        letter-spacing: 0.18em;
+        color: #b9b4d4;
+        user-select: none;
+      }
+      .gb-bezel-caption::before,
+      .gb-bezel-caption::after {
+        content: '';
+        position: absolute;
+        top: 3px;
+        width: 12%;
+        height: 1px;
+        background: #8d2942;
+        box-shadow: 0 3px 0 #2d3f8f;
+      }
+      .gb-bezel-caption::before { left: 6%; }
+      .gb-bezel-caption::after { right: 6%; }
+      .gb-led-wrap {
+        position: absolute;
+        left: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        font: 600 6px/1 'Helvetica Neue', Arial, sans-serif;
+        letter-spacing: 0.04em;
+        color: #b9b4d4;
+        user-select: none;
+      }
+      .gb-led {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #d8302f;
+        box-shadow: 0 0 7px rgba(255, 80, 70, 0.9), inset 0 -1px 2px rgba(0, 0, 0, 0.4);
+      }
+      .gb-screen-wrap {
+        background: #000;
+        line-height: 0;
+      }
+      .gb-brand {
+        margin-top: 13px;
+        text-align: left;
+        padding-left: 6px;
+        font: italic 700 17px/1 'Helvetica Neue', Arial, sans-serif;
+        letter-spacing: 0.01em;
+        color: #2f327e;
+        user-select: none;
+      }
+      .gb-brand .tm {
+        font-size: 8px;
+        vertical-align: super;
+        font-style: normal;
       }
       canvas {
         image-rendering: pixelated;

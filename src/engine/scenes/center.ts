@@ -182,11 +182,12 @@ export class CenterScene implements Scene {
     drawMap(ctx);
     drawNpcs(ctx);
 
+    // cx/cy hold the ORIGIN tile while a step is in flight; slide toward the target.
     let px = this.cx * META;
     let py = this.cy * META - 4;
     if (this.moving) {
-      px -= this.moving.dx * (META - this.moving.progress);
-      py -= this.moving.dy * (META - this.moving.progress);
+      px += this.moving.dx * this.moving.progress;
+      py += this.moving.dy * this.moving.progress;
     }
     const { img, flip } = this.playerSprite();
     if (flip) drawFlipped(ctx, img, px, py);

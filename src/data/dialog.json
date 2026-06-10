@@ -1,7 +1,7 @@
 {
   "bench_man": {
     "pages": [
-      "I wanted to trade my graded Pokemon Slabs from Collector Crypt, but they only do ERC-20 here."
+      "I wanted to trade my Pokémon Slabs from Collector Crypt, but they only do ERC-20 here."
     ]
   },
   "nurse": {
@@ -15,7 +15,7 @@
     "pages": ["OK! Heal your bags out there!"]
   },
   "pc": {
-    "pages": ["Update install.. check back later"]
+    "pages": ["Updating.. check back later"]
   },
   "connect_intro": {
     "pages": ["Welcome! Link your EVM wallet to enter the POKeMON CENTER."]

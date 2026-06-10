@@ -14,6 +14,12 @@ export default defineConfig(({ mode }) => {
           rewrite: (p) => p.replace(/^\/uniswap-api/, '/v1'),
           headers: { 'x-api-key': env.UNISWAP_API_KEY ?? '' },
         },
+        // Flaunch data API has no CORS headers — proxy it (browser headers pass through).
+        '/flaunch-api': {
+          target: 'https://api-v2.flayerlabs.xyz',
+          changeOrigin: true,
+          rewrite: (p) => p.replace(/^\/flaunch-api/, ''),
+        },
       },
     },
   };
