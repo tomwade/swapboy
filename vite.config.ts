@@ -12,11 +12,7 @@ export default defineConfig(({ mode }) => {
           target: 'https://trade-api.gateway.uniswap.org',
           changeOrigin: true,
           rewrite: (p) => p.replace(/^\/uniswap-api/, '/v1'),
-          configure: (proxy) => {
-            proxy.on('proxyReq', (proxyReq) => {
-              proxyReq.setHeader('x-api-key', env.UNISWAP_API_KEY ?? '');
-            });
-          },
+          headers: { 'x-api-key': env.UNISWAP_API_KEY ?? '' },
         },
       },
     },

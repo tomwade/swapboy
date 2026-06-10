@@ -1,4 +1,4 @@
-import type { Palette } from './palette';
+import { BW, type Palette } from './palette';
 
 // Pixel art is authored as template-literal string grids:
 //   '.' = transparent, '0'..'3' = palette index (0 lightest .. 3 darkest).
@@ -47,22 +47,9 @@ export function bakeGrid(grid: PixelGrid, palette: Palette): HTMLCanvasElement {
   return canvas;
 }
 
-/**
- * A sprite baked for every fade level of the base palette (0..4), so palette
- * fades are a per-frame lookup rather than a re-bake.
- */
-export interface BakedSprite {
-  w: number;
-  h: number;
-  byFade: HTMLCanvasElement[];
-}
-
-export function bakeSprite(grid: PixelGrid, palettes: Palette[]): BakedSprite {
-  return {
-    w: grid.w,
-    h: grid.h,
-    byFade: palettes.map((p) => bakeGrid(grid, p)),
-  };
+/** Parse + bake in one go with the standard B&W palette (fades are a post-process). */
+export function bake(src: string): HTMLCanvasElement {
+  return bakeGrid(parseGrid(src), BW);
 }
 
 /** Draw horizontally mirrored (Game Boy OAM X-flip — used for right-facing frames). */
