@@ -11,6 +11,10 @@ import type { Input } from './input';
 export const DIALOG_WIDTH = 18;
 const SPEED_FRAMES = 3;
 const ARROW_BLINK_FRAMES = 30; // ~500ms
+// Gen 1 prints at tile rows 14/16, but our border tiles ink mid-tile (the
+// original inks nearer the box edge), which makes that placement read too
+// low — lift the text slightly to restore the classic balance.
+const TEXT_Y_NUDGE = -2;
 
 export function wordWrap(text: string, width = DIALOG_WIDTH): string[] {
   const lines: string[] = [];
@@ -169,11 +173,11 @@ export class DialogBox {
       const dots = Math.floor(frame / 20) % 4;
       line0 = this.waitingBase + '.'.repeat(dots);
     }
-    font.drawTile(ctx, line0, 1, 14);
-    font.drawTile(ctx, this.shown[1], 1, 16);
+    font.draw(ctx, line0, 1 * TILE, 14 * TILE + TEXT_Y_NUDGE);
+    font.draw(ctx, this.shown[1], 1 * TILE, 16 * TILE + TEXT_Y_NUDGE);
     const waiting = this.state === 'wait-line' || this.state === 'wait-page';
     if (waiting && Math.floor(frame / ARROW_BLINK_FRAMES) % 2 === 0) {
-      ctx.drawImage(spr('UI_ARROW_DOWN'), 18 * TILE, 16 * TILE);
+      ctx.drawImage(spr('UI_ARROW_DOWN'), 18 * TILE, 16 * TILE + TEXT_Y_NUDGE);
     }
   }
 }
