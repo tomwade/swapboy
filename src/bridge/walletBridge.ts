@@ -109,6 +109,13 @@ export function attachWalletBridge(engine: GameEngine): () => void {
           if (!address) throw new Error('No account');
           engine.dispatch({ type: 'CONNECTED', address });
         } catch (err) {
+          // A connector that is already connected counts as success.
+          const existing = getAccount(config).address;
+          if (existing) {
+            engine.dispatch({ type: 'CONNECTED', address: existing });
+            return;
+          }
+          console.error('[bridge] connect failed:', err);
           engine.dispatch({ type: 'CONNECT_FAILED', message: message(err) });
         }
         return;
@@ -146,7 +153,11 @@ export function attachWalletBridge(engine: GameEngine): () => void {
             seq: e.seq,
             quote,
             outFormatted: trimAmount(formatUnits(outRaw, e.params.outDecimals)),
-            gasUsd: quote.quote.gasFeeUSD ? Number(quote.quote.gasFeeUSD).toFixed(2) : null,
+            gasUsd: quote.quote.gasFeeUSD
+              ? Number(quote.quote.gasFeeUSD) < 0.005
+                ? '<0.01'
+                : Number(quote.quote.gasFeeUSD).toFixed(2)
+              : null,
             permitData: quote.permitData,
           });
         } catch (err) {

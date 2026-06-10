@@ -476,13 +476,13 @@ export class SwapFlow {
     const font = FONT();
     const sellSym = displaySymbol(this.sellMeta?.symbol ?? '');
     const buySym = displaySymbol(this.buyMeta?.symbol ?? '');
-    const payStr = `${trimAmount(formatUnits(this.amount, this.sellMeta?.decimals ?? 18))} ${sellSym}`;
-    const getStr = `${this.outFormatted} ${buySym}`;
+    const payStr = `${trimAmount(formatUnits(this.amount, this.sellMeta?.decimals ?? 18), 7)} ${sellSym}`;
+    const getStr = `${trimAmount(this.outFormatted, 7)} ${buySym}`;
     drawWindow(ctx, 0, 3, 14, 8);
     font.drawTile(ctx, 'PAY', 1, 4);
     font.drawTile(ctx, payStr.slice(0, 12), 1, 5);
-    font.drawTile(ctx, 'GET', 1, 7);
-    font.drawTile(ctx, `~${getStr}`.slice(0, 12), 1, 8);
+    font.drawTile(ctx, 'GET~', 1, 7);
+    font.drawTile(ctx, getStr.slice(0, 12), 1, 8);
     font.drawTile(ctx, `FEE $${this.gasUsd ?? '?'}`.slice(0, 12), 1, 9);
   }
 }

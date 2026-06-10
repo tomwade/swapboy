@@ -29,7 +29,8 @@ export interface Input {
 
 export function createInput(onFirstGesture: () => void): Input {
   const down = new Set<Button>();
-  let prev = new Set<Button>();
+  // Keydowns buffered until the next tick, so even sub-frame taps register.
+  const justPressed = new Set<Button>();
   let gestured = false;
 
   const gesture = (): void => {
@@ -45,7 +46,10 @@ export function createInput(onFirstGesture: () => void): Input {
     if (!b) return;
     e.preventDefault();
     // Own hold-repeat timing: OS key-repeat events are ignored.
-    if (!e.repeat) down.add(b);
+    if (!e.repeat) {
+      down.add(b);
+      justPressed.add(b);
+    }
   };
   const onKeyUp = (e: KeyboardEvent): void => {
     const b = KEYMAP[e.code];
@@ -60,9 +64,9 @@ export function createInput(onFirstGesture: () => void): Input {
 
   return {
     held: (b) => down.has(b),
-    pressed: (b) => down.has(b) && !prev.has(b),
+    pressed: (b) => justPressed.has(b),
     endFrame() {
-      prev = new Set(down);
+      justPressed.clear();
     },
     dispose() {
       window.removeEventListener('keydown', onKeyDown);

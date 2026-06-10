@@ -153,11 +153,9 @@ export class CenterScene implements Scene {
     if (target === 'nurse') {
       this.dialog.open(dialogData.nurse.pages, { holdAtEnd: true });
       this.afterDialog = () => {
-        this.menu = new Menu({
-          items: dialogData.nurse.menu.map((m) => ({ label: m.label })),
-          tx: 11,
-          ty: 6,
-        });
+        const labels = dialogData.nurse.menu.map((m) => ({ label: m.label }));
+        const tw = Math.max(...labels.map((l) => l.label.length)) + 3;
+        this.menu = new Menu({ items: labels, tx: Math.max(0, 20 - tw), ty: 5 });
       };
     } else if (target === 'pc') {
       sfxStartMenu();

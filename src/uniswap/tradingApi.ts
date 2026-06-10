@@ -102,8 +102,8 @@ export async function getQuote(params: {
   tokenOut: Address;
   amount: string;
 }): Promise<ClassicQuoteResponse> {
-  // Skill rules: chain IDs as STRINGS; CLASSIC routing guarantees the classic
-  // quote/permit shape on Base.
+  // Skill rules: chain IDs as STRINGS. routingPreference must be BEST_PRICE or
+  // FASTEST (the API rejects CLASSIC); on Base, BEST_PRICE returns CLASSIC routes.
   return postJson<ClassicQuoteResponse>('/quote', {
     swapper: params.swapper,
     tokenIn: params.tokenIn,
@@ -113,7 +113,7 @@ export async function getQuote(params: {
     amount: params.amount,
     type: 'EXACT_INPUT',
     slippageTolerance: 0.5,
-    routingPreference: 'CLASSIC',
+    routingPreference: 'BEST_PRICE',
     protocols: ['V2', 'V3', 'V4'],
   });
 }

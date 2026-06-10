@@ -19,6 +19,9 @@ export function GameCanvas() {
       if (cancelled) return;
       engine.replace(new TitleScene(engine));
       engine.start();
+      if (import.meta.env.DEV) {
+        (window as unknown as { __gbEngine?: GameEngine }).__gbEngine = engine;
+      }
     });
 
     // StrictMode-safe teardown: without this, dev double-mount runs two loops.

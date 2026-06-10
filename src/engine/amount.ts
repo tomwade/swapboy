@@ -122,8 +122,8 @@ export class AmountEntry {
   draw(ctx: CanvasRenderingContext2D): void {
     const font = FONT();
     const text = `*${this.display()}`;
-    const balText = `BAG ${trimAmount(formatUnits(this.opts.balance, this.opts.decimals))} ${this.opts.symbol}`;
-    const innerW = Math.max(text.length, Math.min(balText.length, 16));
+    const balText = `BAG ${trimAmount(formatUnits(this.opts.balance, this.opts.decimals), 7)} ${this.opts.symbol}`;
+    const innerW = Math.max(text.length, Math.min(balText.length, 17));
     const tw = innerW + 2;
     const tx = Math.max(0, 19 - tw);
     const ty = 4;

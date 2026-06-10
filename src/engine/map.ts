@@ -41,7 +41,8 @@ export interface Npc {
 
 export const NPCS: Npc[] = [
   { id: 'nurse', cx: 3, cy: 1, sprite: 'NURSE_DOWN' },
-  { id: 'bench_man', cx: 1, cy: 4, sprite: 'MAN_SEATED' },
+  // Sits ON the bench tile at the left wall.
+  { id: 'bench_man', cx: 0, cy: 4, sprite: 'MAN_SEATED' },
 ];
 
 export const SPAWN = { cx: 4, cy: 7 };
@@ -57,7 +58,7 @@ export function isSolid(cx: number, cy: number): boolean {
 export function targetAt(cx: number, cy: number): string | null {
   if (cy === 2 && cx >= 1 && cx <= 6) return 'nurse'; // talk across the counter
   if (cx === 9 && cy === 3) return 'pc';
-  if (cx === 1 && cy === 4) return 'bench_man';
+  if (cx === 0 && cy === 4) return 'bench_man';
   return null;
 }
 
