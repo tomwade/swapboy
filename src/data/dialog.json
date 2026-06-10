@@ -1,0 +1,71 @@
+{
+  "bench_man": {
+    "pages": [
+      "I wanted to trade my graded Pokemon Slabs from Collector Crypt, but they only do ERC-20 here."
+    ]
+  },
+  "nurse": {
+    "pages": ["Welcome to the Pokemon Center! How can I help?"],
+    "menu": [
+      { "label": "SWAP TOKENS", "action": "swap" },
+      { "label": "NOTHING..", "action": "nothing" }
+    ]
+  },
+  "nurse_nothing": {
+    "pages": ["OK! Heal your bags out there!"]
+  },
+  "pc": {
+    "pages": ["Update install.. check back later"]
+  },
+  "connect_intro": {
+    "pages": ["Welcome! Link your EVM wallet to enter the POKeMON CENTER."]
+  },
+  "connect_waiting": {
+    "pages": ["Linking"]
+  },
+  "connect_failed": {
+    "pages": ["It didn't work! The link was refused."]
+  },
+  "connect_none": {
+    "pages": ["No wallets found! Install an EVM wallet and come back."]
+  },
+  "swap_fetch_pools": {
+    "pages": ["Checking the pool board"]
+  },
+  "swap_pools_failed": {
+    "pages": ["The pool board is down! Come back later."]
+  },
+  "swap_direction": {
+    "pages": ["Which will you pay with?"]
+  },
+  "swap_amount": {
+    "pages": ["How much?"]
+  },
+  "swap_quoting": {
+    "pages": ["Asking the router"]
+  },
+  "swap_quote_failed": {
+    "pages": ["The router shook its head! No quote came back."]
+  },
+  "swap_approval": {
+    "pages": ["Granting the machine an allowance"]
+  },
+  "swap_permit": {
+    "pages": ["Sign the permit slip in your wallet!"]
+  },
+  "swap_wallet": {
+    "pages": ["Confirm the trade in your wallet!"]
+  },
+  "swap_mining": {
+    "pages": ["Swapping"]
+  },
+  "swap_rejected": {
+    "pages": ["You decided not to."]
+  },
+  "swap_reverted": {
+    "pages": ["Oh no! The trade fell through on-chain."]
+  },
+  "swap_exit": {
+    "pages": ["We hope to see you again!"]
+  }
+}
