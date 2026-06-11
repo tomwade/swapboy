@@ -1,4 +1,6 @@
-import { TILE } from '../gfx/screen';
+import { GB_W, TILE } from '../gfx/screen';
+
+const SCREEN_TW = GB_W / TILE;
 import { FONT, spr } from '../gfx/assets';
 import { drawWindow } from './window';
 import { sfxPressAB } from '../audio/sfx';
@@ -12,7 +14,7 @@ export interface MenuItem {
 
 export interface MenuOpts {
   items: MenuItem[];
-  /** Tile position of the window's top-left. */
+  /** Tile position of the window's top-left; tx shifts left if needed to keep the window on screen. */
   tx: number;
   ty: number;
   /** Tile width; defaults to fit the longest label + cursor + border. */
@@ -35,12 +37,12 @@ export class Menu {
   constructor(opts: MenuOpts) {
     this.items = opts.items;
     this.index = opts.initialIndex ?? 0;
-    this.tx = opts.tx;
-    this.ty = opts.ty;
     const longest = Math.max(
       ...opts.items.map((i) => Math.max(i.label.length, (i.detail?.length ?? 0))),
     );
-    this.tw = opts.tw ?? Math.min(20, longest + 3);
+    this.tw = opts.tw ?? Math.min(SCREEN_TW, longest + 3);
+    this.tx = Math.max(0, Math.min(opts.tx, SCREEN_TW - this.tw));
+    this.ty = opts.ty;
     let row = 1;
     for (const item of this.items) {
       this.rowOf.push(row);

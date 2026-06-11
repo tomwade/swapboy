@@ -10,7 +10,7 @@ import { AmountEntry, trimAmount } from './amount';
 import { drawWindow } from './window';
 import { FONT } from '../gfx/assets';
 import { formatUsdCompact } from '../uniswap/pools';
-import { displaySymbol, toTradeAddress } from '../uniswap/types';
+import { displaySymbol, NATIVE_ETH, toTradeAddress } from '../uniswap/types';
 import { music } from '../audio/music';
 import { sfxDenied, sfxItemGet, ITEM_GET_SECONDS } from '../audio/sfx';
 import dialogData from '../data/dialog.json';
@@ -53,6 +53,8 @@ export class SwapFlow {
   private pools: PoolInfo[] = [];
   private pool: PoolInfo | null = null;
   private sellSide: 0 | 1 = 0;
+  /** Pool side shown at each direction-menu position (ETH listed first). */
+  private directionSides: [0 | 1, 0 | 1] = [0, 1];
   private sellMeta: TokenMeta | null = null;
   private buyMeta: TokenMeta | null = null;
   private amount = 0n;
@@ -271,10 +273,14 @@ export class SwapFlow {
           return;
         }
         this.pool = this.pools[res.index]!;
+        const tokens = [this.pool.token0, this.pool.token1] as const;
+        this.directionSides =
+          toTradeAddress(tokens[1].address) === NATIVE_ETH ? [1, 0] : [0, 1];
         this.menu = new Menu({
           items: [
-            { label: displaySymbol(this.pool.token0.symbol).slice(0, 8) },
-            { label: displaySymbol(this.pool.token1.symbol).slice(0, 8) },
+            ...this.directionSides.map((s) => ({
+              label: displaySymbol(tokens[s].symbol).slice(0, 8),
+            })),
             { label: 'CANCEL' },
           ],
           tx: 12,
@@ -292,7 +298,7 @@ export class SwapFlow {
           this.reopenPoolList();
           return;
         }
-        this.sellSide = res.index as 0 | 1;
+        this.sellSide = this.directionSides[res.index]!;
         this.menu = null;
         this.state = 'fetch_meta';
         this.dialog.openWaiting('Checking the bag');
