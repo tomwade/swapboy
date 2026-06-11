@@ -1,7 +1,7 @@
 // Uniswap Trading API client, ported from the prior working integration
-// (public-events/Uniswap Trading API/swap-widget). Differences here:
-// requests go through the Vite dev proxy at /uniswap-api which injects
-// x-api-key server-side — the key never reaches the client bundle.
+// (public-events/Uniswap Trading API/swap-widget). The API sends no CORS
+// headers, so requests go through a same-origin proxy at /uniswap-api
+// (Vite dev proxy locally, vercel.json rewrite in production).
 import { isAddress, isHex, type Address, type Hex } from 'viem';
 import { BASE_CHAIN_ID } from './types';
 
@@ -9,6 +9,7 @@ const API_BASE = '/uniswap-api';
 
 const BASE_HEADERS = {
   'Content-Type': 'application/json',
+  'x-api-key': '42OAv2etZwfo2Nk46Cks0_KUR8cchAVPsmysMbKUnrU',
   'x-universal-router-version': '2.0',
 } as const;
 

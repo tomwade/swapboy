@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/uniswap-api/:path*",
+      "destination": "https://trade-api.gateway.uniswap.org/v1/:path*"
+    },
+    {
+      "source": "/flaunch-api/:path*",
+      "destination": "https://api-v2.flayerlabs.xyz/:path*"
+    }
+  ]
+}

@@ -11,14 +11,13 @@ a synthesized Game Boy APU for music and sound effects.
 
 ```sh
 npm install
-cp .env.example .env.local   # then paste your Uniswap API key
 npm run dev
 ```
 
-- `UNISWAP_API_KEY` comes from the [Uniswap developer dashboard](https://developers.uniswap.org/dashboard)
-  (free). It is injected **server-side** by the Vite dev proxy
-  (`/uniswap-api` → `trade-api.gateway.uniswap.org/v1`) and never reaches the
-  client bundle.
+- API keys (Uniswap Trading API, Flaunch bypass) are hardcoded in
+  `src/uniswap/` and sent by the browser; requests go through same-origin
+  proxies (`/uniswap-api`, `/flaunch-api`) because neither API sends CORS
+  headers.
 - Optional: drop the freeware **"Pokemon GB"** TTF (dafont.com/pokemon-gb.font)
   at `public/fonts/pokemon-gb.ttf` for the pixel-exact Gen 1 font. Without it
   the app falls back to the vendored Press Start 2P (OFL).
@@ -67,8 +66,8 @@ the transaction send — verifying the whole flow without spending anything.
 
 ## Production note
 
-The dev proxy only exists under `npm run dev`. Deploying requires a ~10-line
-edge function doing the same rewrite + `x-api-key` injection.
+The dev proxies only exist under `npm run dev`; `vercel.json` mirrors them as
+rewrites so the same client code works locally and on Vercel.
 
 ## Provenance
 

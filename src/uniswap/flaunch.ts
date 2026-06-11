@@ -9,7 +9,6 @@ import { WETH9_BASE } from './types';
 import { formatUsdCompact } from './pools';
 
 const URL = '/flaunch-api/v1/base/coins/top?sort=topSwaps&limit=';
-const BYPASS_KEY: string | undefined = import.meta.env.VITE_FLAUNCH_BYPASS_KEY;
 
 const CACHE_MS = 60_000;
 let cache: { at: number; pools: PoolInfo[] } | null = null;
@@ -28,7 +27,7 @@ export async function fetchTopFlaunchCoins(count = 4): Promise<PoolInfo[]> {
   const res = await fetch(`${URL}${count}`, {
     headers: {
       Accept: 'application/json',
-      ...(BYPASS_KEY ? { 'x-flaunch-swapboy-bypass': BYPASS_KEY } : {}),
+      'x-flaunch-swapboy-bypass': 'Ug6taphVAUW7uJqW0L5ip70BGEBHwoPJ',
     },
   });
   if (!res.ok) throw new Error(`Flaunch API ${res.status}`);
