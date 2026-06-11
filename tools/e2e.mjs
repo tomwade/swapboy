@@ -172,11 +172,7 @@ await press('Space');
 await sleep(1500);
 await shot('direction');
 
-// Pick the ETH side
-if (target.side === 1) {
-  await press('KeyS');
-  await sleep(250);
-}
+// The direction menu lists ETH first, so the default selection is the ETH side
 await press('Space');
 await sleep(2800); // token meta fetch (live RPC)
 await shot('amount');
