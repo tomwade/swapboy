@@ -127,7 +127,7 @@ export function attachWalletBridge(engine: GameEngine): () => void {
           // (the Flaunch API is Cloudflare-gated and can reject the proxy).
           let pools;
           try {
-            pools = await fetchTopFlaunchCoins(5);
+            pools = await fetchTopFlaunchCoins(4);
           } catch (flaunchErr) {
             console.warn('[bridge] Flaunch API unavailable, falling back:', flaunchErr);
             pools = await fetchTopPools(5);

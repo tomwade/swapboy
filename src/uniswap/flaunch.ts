@@ -1,4 +1,4 @@
-// Top Flaunch coins on Base by 24h volume, via the Flaunch data API
+// Top Flaunch coins on Base by swap count, via the Flaunch data API
 // (api-v2.flayerlabs.xyz). The API sends no CORS headers and sits behind
 // Cloudflare bot protection, so requests go through the Vite proxy at
 // /flaunch-api. Every coin trades against ETH (Uniswap v4 hooked pools);
@@ -6,8 +6,9 @@
 import type { Address } from 'viem';
 import type { PoolInfo } from '../bridge/events';
 import { WETH9_BASE } from './types';
+import { formatUsdCompact } from './pools';
 
-const URL = '/flaunch-api/v1/base/coins/top?sort=volume&limit=';
+const URL = '/flaunch-api/v1/base/coins/top?sort=topSwaps&limit=';
 const BYPASS_KEY: string | undefined = import.meta.env.VITE_FLAUNCH_BYPASS_KEY;
 
 const CACHE_MS = 60_000;
@@ -21,7 +22,7 @@ interface FlaunchCoin {
   marketCapUSD: string;
 }
 
-export async function fetchTopFlaunchCoins(count = 5): Promise<PoolInfo[]> {
+export async function fetchTopFlaunchCoins(count = 4): Promise<PoolInfo[]> {
   if (cache && Date.now() - cache.at < CACHE_MS) return cache.pools.slice(0, count);
 
   const res = await fetch(`${URL}${count}`, {
@@ -37,6 +38,7 @@ export async function fetchTopFlaunchCoins(count = 5): Promise<PoolInfo[]> {
   const pools: PoolInfo[] = body.data.map((c) => ({
     poolAddress: c.tokenAddress,
     name: c.symbol,
+    detail: `${formatUsdCompact(Number(c.marketCapUSD) || 0)} MCAP`,
     feeTier: '',
     volume24hUsd: Number(c.twentyFourHourVolumeUSD) || 0,
     tvlUsd: Number(c.marketCapUSD) || 0,

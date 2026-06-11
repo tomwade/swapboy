@@ -103,7 +103,7 @@ export class SwapFlow {
           items: [
             ...a.pools.map((p) => ({
               label: p.name.slice(0, 16),
-              detail: `${formatUsdCompact(p.volume24hUsd)} VOL`,
+              detail: p.detail ?? `${formatUsdCompact(p.volume24hUsd)} VOL`,
             })),
             { label: 'CANCEL' },
           ],
@@ -364,7 +364,7 @@ export class SwapFlow {
       items: [
         ...this.pools.map((p) => ({
           label: p.name.slice(0, 16),
-          detail: `${formatUsdCompact(p.volume24hUsd)} VOL`,
+          detail: p.detail ?? `${formatUsdCompact(p.volume24hUsd)} VOL`,
         })),
         { label: 'CANCEL' },
       ],

@@ -25,6 +25,8 @@ export interface PoolInfo {
   poolAddress: string;
   /** e.g. "WETH/USDC 0.05%" */
   name: string;
+  /** Stat shown next to the name in the pool list; defaults to 24h volume. */
+  detail?: string;
   feeTier: string;
   volume24hUsd: number;
   tvlUsd: number;
