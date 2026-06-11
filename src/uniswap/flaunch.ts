@@ -8,6 +8,7 @@ import type { PoolInfo } from '../bridge/events';
 import { WETH9_BASE } from './types';
 
 const URL = '/flaunch-api/v1/base/coins/top?sort=volume&limit=';
+const BYPASS_KEY: string | undefined = import.meta.env.VITE_FLAUNCH_BYPASS_KEY;
 
 const CACHE_MS = 60_000;
 let cache: { at: number; pools: PoolInfo[] } | null = null;
@@ -23,14 +24,19 @@ interface FlaunchCoin {
 export async function fetchTopFlaunchCoins(count = 5): Promise<PoolInfo[]> {
   if (cache && Date.now() - cache.at < CACHE_MS) return cache.pools.slice(0, count);
 
-  const res = await fetch(`${URL}${count}`, { headers: { Accept: 'application/json' } });
+  const res = await fetch(`${URL}${count}`, {
+    headers: {
+      Accept: 'application/json',
+      ...(BYPASS_KEY ? { 'x-flaunch-swapboy-bypass': BYPASS_KEY } : {}),
+    },
+  });
   if (!res.ok) throw new Error(`Flaunch API ${res.status}`);
   const body = (await res.json()) as { data: FlaunchCoin[] };
   if (!Array.isArray(body.data) || body.data.length === 0) throw new Error('Flaunch API: no coins');
 
   const pools: PoolInfo[] = body.data.map((c) => ({
     poolAddress: c.tokenAddress,
-    name: `${c.symbol}/ETH`,
+    name: c.symbol,
     feeTier: '',
     volume24hUsd: Number(c.twentyFourHourVolumeUSD) || 0,
     tvlUsd: Number(c.marketCapUSD) || 0,
